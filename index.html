@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日语在线翻译</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .translate-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .box {
+            width: 100%;
+        }
+
+        label {
+            font-size: 16px;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            height: 160px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: none;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #3498db;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3498db;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-clear {
+            background-color: #95a5a6;
+        }
+
+        .btn-copy {
+            background-color: #1abc9c;
+        }
+
+        @media (max-width:768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">日语在线翻译</h1>
+
+        <div class="translate-box">
+            <!-- 输入框 -->
+            <div class="box">
+                <label>日文 / 中文</label>
+                <textarea id="inputText" placeholder="请输入要翻译的内容..."></textarea>
+            </div>
+
+            <!-- 结果框 -->
+            <div class="box">
+                <label>翻译结果</label>
+                <textarea id="outputText" readonly placeholder="翻译结果将显示在这里..."></textarea>
+            </div>
+
+            <!-- 按钮 -->
+            <div class="btn-group">
+                <button onclick="translate()">开始翻译</button>
+                <button class="btn-clear" onclick="clearText()">清空内容</button>
+                <button class="btn-copy" onclick="copyResult()">复制结果</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简易中日翻译词典（可自行扩充）
+        const dict = {
+            "你好": "こんにちは",
+            "谢谢": "ありがとう",
+            "对不起": "ごめんなさい",
+            "再见": "さようなら",
+            "早上好": "おはようございます",
+            "晚上好": "こんばんは",
+            "我": "私",
+            "你": "あなた",
+            "好": "いい",
+            "喜欢": "好き",
+            "爱": "愛",
+            "朋友": "友達",
+            "家人": "家族",
+            "今天": "今日",
+            "明天": "明日",
+            "吃饭": "食べる",
+            "睡觉": "寝る",
+
+            // 日翻中
+            "こんにちは": "你好",
+            "ありがとう": "谢谢",
+            "ごめんなさい": "对不起",
+            "さようなら": "再见",
+            "おはよう": "早上好",
+            "こんばんは": "晚上好",
+            "好き": "喜欢",
+            "愛": "爱",
+            "友達": "朋友",
+            "家族": "家人",
+            "食べる": "吃饭",
+            "寝る": "睡觉"
+        };
+
+        // 翻译函数
+        function translate() {
+            let input = document.getElementById("inputText").value.trim();
+            let output = document.getElementById("outputText");
+
+            if (!input) {
+                output.value = "请输入内容";
+                return;
+            }
+
+            // 查找翻译
+            let result = dict[input] || "暂未收录该词汇，可自行添加到词典中";
+            output.value = result;
+        }
+
+        // 清空
+        function clearText() {
+            document.getElementById("inputText").value = "";
+            document.getElementById("outputText").value = "";
+        }
+
+        // 复制
+        function copyResult() {
+            let text = document.getElementById("outputText").value;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("复制成功！");
+            });
+        }
+    </script>
+</body>
+</html>
